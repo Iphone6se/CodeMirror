@@ -111,8 +111,8 @@ export function ensureCursorVisible(cm) {
   resolveScrollToPos(cm)
   let cur = cm.getCursor(), from = cur, to = cur
   if (!cm.options.lineWrapping) {
-    from = cur.ch ? Pos(cur.line, cur.ch - 1) : cur
-    to = Pos(cur.line, cur.ch + 1)
+    from = Pos(cur.line, cur.sticky == "before" && cur.ch ? cur.ch - 1 : cur.ch, "after")
+    to = Pos(cur.line, cur.sticky == "before" ? cur.ch : cur.ch + 1, "before")
   }
   cm.curOp.scrollToPos = {from: from, to: to, margin: cm.options.cursorScrollMargin}
 }
